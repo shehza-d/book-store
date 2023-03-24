@@ -1,7 +1,7 @@
-export default function NotFound() {
+export default function NotFound({ params }: { params: { bookID: string } }) {
   return (
     <>
-      <h2>Not Found</h2>
+      <h2>Book Not Found</h2>
       <p>Could not find requested resource</p>
     </>
   );
