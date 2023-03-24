@@ -1,4 +1,5 @@
-import { bookType } from "@/types";
+import { booksType } from "@/types";
+import Link from "next/link";
 
 const baseURL = `https://simple-books-api.glitch.me`;
 
@@ -16,8 +17,7 @@ async function getData() {
 }
 
 export default async function Page() {
-  const data: bookType[] = await getData();
-  console.log(data);
+  const data: booksType[] = await getData();
 
   return (
     <section>
@@ -25,11 +25,13 @@ export default async function Page() {
       <div className="grid gap-10 grid-cols-3">
         {data.map((item) => {
           return (
-            <div className="card bdr" key={item.id}>
-              <h2>Book Name : {item.name}</h2>
-              <p>Book Type : {item.type}</p>
-              <p>Book Available : {`${item.available}`}</p>
-            </div>
+            <Link href={`/books/${item.id}`} key={item.id}>
+              <div className="card bdr">
+                <h2>Book Name : {item.name}</h2>
+                <p>Book Type : {item.type}</p>
+                <p>Book Available : {`${item.available}`}</p>
+              </div>
+            </Link>
           );
         })}
       </div>

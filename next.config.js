@@ -11,8 +11,13 @@ const withPWA = require("next-pwa")({
   //...
 });
 
-module.exports = withPWA({
+module.exports = {
   experimental: {
     appDir: true,
   },
-});
+};
+// module.exports = withPWA({
+//   experimental: {
+//     appDir: true,
+//   },
+// });
