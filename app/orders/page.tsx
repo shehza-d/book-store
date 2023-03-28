@@ -35,7 +35,7 @@ export default async function Page() {
   //   } catch (err) {
   //     console.log(err);
   //   }
-  ff;
+
   return (
     <section>
       <h1 className="my-20 text-3xl">Page of orders</h1>
