@@ -1,4 +1,4 @@
-import { bookType } from "@/types";
+import { BookType } from "@/types";
 import { notFound } from "next/navigation";
 
 const baseURL = `https://simple-books-api.glitch.me`;
@@ -14,7 +14,7 @@ const getData = async (bookID: string) => {
 };
 
 export default async function Page({ params }: { params: { bookID: string } }) {
-  const data: bookType = await getData(params.bookID);
+  const data: BookType = await getData(params.bookID);
   if (!data) notFound();
 
   console.log(data);

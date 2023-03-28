@@ -1,4 +1,4 @@
-import { booksType } from "@/types";
+import { BooksType } from "@/types";
 import Link from "next/link";
 
 const baseURL = `https://simple-books-api.glitch.me`;
@@ -13,11 +13,11 @@ async function getData() {
   // This will activate the closest `error.js` Error Boundary
   if (!res.ok) throw new Error("Failed to fetch data");
 
-  return res.json();
+  return res.json(); // Extracting data as a JSON Object from the response
 }
 
 export default async function Page() {
-  const data: booksType[] = await getData();
+  const data: BooksType[] = await getData();
 
   return (
     <section>

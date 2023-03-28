@@ -1,11 +1,11 @@
-export interface booksType {
+export interface BooksType {
   id: number;
   name: string;
   type: string;
   available: boolean;
 }
 
-export interface bookType {
+export interface BookType {
   id: number;
   name: string;
   author: string;
@@ -13,4 +13,13 @@ export interface bookType {
   price: number;
   "current-stock": number;
   available: boolean;
+}
+
+export interface OrderType {
+  id: string;
+  bookId: number;
+  customerName: string;
+  createdBy: string;
+  quantity: number;
+  timestamp: number;
 }
