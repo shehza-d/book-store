@@ -16,7 +16,7 @@ async function getData() {
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     },
-  });
+  }).then((res) => res.json());
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
 
@@ -25,16 +25,11 @@ async function getData() {
 
   //   if (!res.ok) throw new Error("Failed to fetch data");
 
-  return res.json(); // Extracting data as a JSON Object from the response
+  return res; // Extracting data as a JSON Object from the response
 }
 
 export default async function Page() {
-  //   try {
   const data: OrderType[] = await getData();
-  console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
 
   return (
     <section>

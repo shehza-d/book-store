@@ -3,21 +3,23 @@ import { notFound } from "next/navigation";
 
 const baseURL = `https://simple-books-api.glitch.me`;
 
+// export function generateStaticParams() {
+//   return [{ bookID: "1" }, { bookID: "2" }, { bookID: "3" }];
+// }
+
 const getData = async (bookID: string) => {
   const res = await fetch(`${baseURL}/books/${bookID}`, {
     cache: "force-cache",
-  });
-  if (!res.ok) return undefined;
-  // if (!res.ok) throw new Error("Failed to fetch data");
-
-  return res.json();
+  }).then((res) => res.json());
+  // if (!res.ok) return undefined;
+  if (!res.ok) throw new Error("Failed to fetch data");
+  return res;
 };
 
 export default async function Page({ params }: { params: { bookID: string } }) {
   const data: BookType = await getData(params.bookID);
   if (!data) notFound();
 
-  console.log(data);
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="bdr">

@@ -18,13 +18,11 @@ async function handleSubmit(e: any) {
       //   "X-FP-API-KEY": key, //it can be iPhone or your any other attribute
       "Content-Type": "application/json",
     },
-    body: {
-      "bookId": "123",
-      "customerName": "Book from front end",
-    },
+    // body: {
+    // bookId: "123",
+    // customerName: "Book from front end",
+    // },
   });
-
-  console.log("res", res);
 
   //   if (!res.ok) throw new Error("Failed to fetch data");
 
