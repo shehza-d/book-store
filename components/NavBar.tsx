@@ -20,5 +20,3 @@ export default function NavBar() {
     </nav>
   );
 }
-dddsdjdsd;
-sdf;
