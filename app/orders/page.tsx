@@ -29,7 +29,7 @@ async function getData() {
 }
 
 export default async function Page() {
-  const data: OrderType[] = await getData();
+  // const data: OrderType[] = await getData();
 
   return (
     <section>
@@ -37,7 +37,7 @@ export default async function Page() {
 
       {/* <OrderForm /> */}
       <div className="grid gap-10 md:grid-cols-3">
-        {data?.map((item) => {
+        {/* {data?.map((item) => {
           return (
             <div className="card bdr" key={item.id}>
               <h2>Customer Name : {item.customerName}</h2>
@@ -47,7 +47,7 @@ export default async function Page() {
               <p>Order Time: {moment(item.timestamp).fromNow()}</p>
             </div>
           );
-        })}
+        })} */}
       </div>
     </section>
   );
