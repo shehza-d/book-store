@@ -37,7 +37,7 @@ export default async function Page() {
 
       {/* <OrderForm /> */}
       <div className="grid gap-10 md:grid-cols-3">
-        {data.map((item) => {
+        {data?.map((item) => {
           return (
             <div className="card bdr" key={item.id}>
               <h2>Customer Name : {item.customerName}</h2>
