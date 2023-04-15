@@ -2,53 +2,53 @@ import { NextRequest, NextResponse } from "next/server";
 import postgres from "postgres";
 
 export async function GET(request: NextRequest) {
+  const url = request.nextUrl.searchParams;
+
+  const type = url.get("type");
+  const limit = url.get("limit");
+  console.log(`🚀 ~ file: route.ts:7 ~ GET ~ type: ${type ? type : ""}`);
+
   const conn = postgres({ ssl: require });
-  const result = await conn.unsafe("SELECT * FROM books");
-  console.log("backend result", result);
+  const result = await conn.unsafe(
+    `SELECT * FROM books  LIMIT ${limit ? limit : 1000};`
+  );
+  // WHERE (${type ? type : ""})
+  // console.log("backend result", result);
   return new NextResponse(JSON.stringify(result));
 }
 
+type TBook = {
+  name: string;
+  type: string;
+  available: string;
+};
 export async function POST(request: NextRequest) {
+  const req: TBook = await request.json();
+  if (!req.name || !req.type)
+    return NextResponse.json({ message: "Please enter required parameters" });
+
   const conn = postgres({ ssl: require });
-  const result = await conn.unsafe(
-    "CREATE TABLE Books(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT,typee TEXT,available TEXT)"
+
+  await conn.unsafe(
+    `INSERT INTO books (name, type,available) VALUES ('${req.name}', '${
+      req.type
+    }',${
+      req.available == "true" || req.available == "false" ? req.available : true
+    });`
   );
-  console.log("backend result", result);
 
-  // const req = await request.json();
-  // if (req.name) {
-  //   return NextResponse.json({
-  //     To: "Zia",
-  //     Message: `All well here ${req.name}`,
-  //     RequestType: "POST",
-  //   });
-  // } else {
-  //   return new NextResponse("Please include your name in the POST request");
-  // }
+  return NextResponse.json({ message: "Book added successfully" });
 }
 
-export async function PUT(request: NextRequest) {
-  const req = await request.json();
-  if (req.name) {
-    return NextResponse.json({
-      To: "Zia",
-      Message: "This is a updated greeting",
-      RequestType: "PUT",
-    });
-  } else {
-    return new NextResponse("Please include your name in the PUT request");
-  }
-}
+// {
+//   "test":"dtekfjfjiofjdf",
+// "type":"something",
+// "available":"fgfgfg"
+// }
 
-export async function DELETE(request: NextRequest) {
-  const req = await request.json();
-  if (req.name) {
-    return NextResponse.json({
-      To: "Zia",
-      Message: "I have deleted the greetings",
-      RequestType: "DELETE",
-    });
-  } else {
-    return new NextResponse("Please include your name in the DELETE request");
-  }
-}
+// export async function PATCH(request: NextRequest) {
+//   const conn = postgres({ ssl: require });
+//   const result = await conn.unsafe(
+//     "UPDATE books SET type = 'programming' WHERE id = 3;"
+//   );
+// }

@@ -23,10 +23,6 @@ module.exports = {
   },
 };
 
-// export const config = {
-//   matcher: ['/about/:path*', '/dashboard/:path*'],
-// }
-// postgres://shehza-d:3xIlhWUwCsZ9@ep-dry-mountain-366119.ap-southeast-1.aws.neon.tech/neondb
 // module.exports = withPWA({
 //   experimental: {
 //     appDir: true,
