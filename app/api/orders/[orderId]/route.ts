@@ -1,11 +1,14 @@
 import { db } from "@/db";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
 
 type TParams = {
   params: { orderId: string };
 };
 
 export async function GET(request: NextRequest, { params }: TParams) {
+  const token = request.cookies.get("token");
+
   const result = await db.unsafe(
     `SELECT * FROM orders WHERE id = ${params.orderId};`
   );

@@ -17,17 +17,22 @@
       created_at TIMESTAMP DEFAULT NOW()
    );
 
- CREATE TABLE orders (
-      id SERIAL PRIMARY KEY,
-      FOREIGN KEY (id) REFERENCES books (id),
-      customerName VARCHAR(45) NOT NULL,
-	created_at TIMESTAMP DEFAULT NOW()
-   );
-   CREATE TABLE orders (
-  order_id SERIAL PRIMARY KEY,
-  id INTEGER,
-  customerName VARCHAR(255),
-  FOREIGN KEY (id) REFERENCES books (id)
+CREATE TABLE users (
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(50) NOT NULL,
+   email VARCHAR(100) UNIQUE NOT NULL,
+   emailHash VARCHAR(200) UNIQUE,
+   passwordHash VARCHAR(100),
+   created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE orders (
+   id SERIAL PRIMARY KEY,
+   user_id INTEGER NOT NULL REFERENCES users(id),
+   book_id INTEGER NOT NULL REFERENCES books(id),
+   quantity INTEGER ,
+   total_price INTEGER,
+   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 SELECT orders.order_id, orders.id , orders.customerName, books.name FROM orders
