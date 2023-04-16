@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
 
     const verified = await jwtVerify(
       token,
-      new TextEncoder().encode(process.env.SECRET || "1book_shehzad_secret1")
+      new TextEncoder().encode(process.env.SECRET)
     );
 
     // console.log("url SSSS", req.nextUrl.host);

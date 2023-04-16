@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
     })
       .setProtectedHeader({ alg: "HS256", typ: "JWT" })
       .sign(new TextEncoder().encode(process.env.SECRET));
-    console.log("hhhhhhhhh", process.env.SECRET);
 
     return new NextResponse(
       JSON.stringify({
