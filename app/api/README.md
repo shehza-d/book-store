@@ -33,8 +33,7 @@ Required body parameters:
 }
 ```
 
-`
-: {
+Type `: {
     name: string;
     type: string;
     available?: boolean;
