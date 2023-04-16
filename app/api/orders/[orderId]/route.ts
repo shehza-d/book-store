@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: TParams) {
   const result = await db.unsafe(
     `SELECT * FROM orders WHERE id = ${params.orderId};`
   );
-  if (result.length === 0) {
+  if (!result.length) {
     return NextResponse.json({ message: "Order not found" });
   }
   return new NextResponse(JSON.stringify(result));

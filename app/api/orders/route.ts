@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
 export async function GET(request: NextRequest) {
-  const result = await db.unsafe("SELECT * FROM orders");
-  return new NextResponse(JSON.stringify(result));
+  // const result = await db.unsafe("SELECT * FROM orders");
+  // return new NextResponse(JSON.stringify(result));
+  return NextResponse.json({ t: "dfdf" });
 }
 
 type TBook = {

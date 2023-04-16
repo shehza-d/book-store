@@ -9,7 +9,7 @@ export async function GET(request: NextRequest, { params }: TParams) {
   const result = await db.unsafe(
     `SELECT * FROM books WHERE id = ${params.bookId};`
   );
-  if (result.length === 0) {
+  if (result.length!) {
     return NextResponse.json({ message: "Book not found" });
   }
   return new NextResponse(JSON.stringify(result));
