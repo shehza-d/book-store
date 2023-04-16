@@ -30,11 +30,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Please enter required parameters" });
 
     await db.unsafe(
-      `INSERT INTO orders (user_id, book_id, quantity ) VALUES (${
+      `INSERT INTO orders (user_id, book_id, customerName, quantity) VALUES (${
         user.userId
-      }, ${req.bookId} ,${req.quantity ? req.quantity : 1} );`
+      }, ${req.bookId}, '${req.customerName}' ,${
+        req.quantity ? req.quantity : 1
+      } );`
     );
-    // INSERT INTO orders (user_id, book_id, quantity) VALUES (1, 2, 3);
 
     return NextResponse.json({ message: "Order placed successfully" });
   } catch (err: any) {

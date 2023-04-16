@@ -21,28 +21,49 @@ export async function GET(request: NextRequest, { params }: TParams) {
 }
 
 export async function PATCH(request: NextRequest, { params }: TParams) {
-  const req: { customerName: string } = await request.json();
+  try {
+    const req: { customerName: string } = await request.json();
+    const user: TUser = JSON.parse(`${request.headers.get("user")}`);
 
-  if (!req.customerName)
-    return NextResponse.json({ message: "Please enter required parameters" });
+    if (!req.customerName)
+      return NextResponse.json({ message: "Please enter required parameters" });
 
-  const result = await db.unsafe(
-    `UPDATE orders SET customerName = '${req.customerName}' WHERE id = ${params.orderId};`
-  );
+    const result = await db.unsafe(
+      `UPDATE orders SET customerName = '${req.customerName}' WHERE id = ${params.orderId};`
+    );
+    // INSERT INTO orders (user_id, book_id, quantity) VALUES (1, 2, 3);
 
-  if (result.length === 0) {
-    return NextResponse.json({ message: "Order not found" });
+    if (!result.length) {
+      return NextResponse.json({ message: "Order not found" });
+    }
+
+    return NextResponse.json({ message: "Order updated successfully" });
+  } catch (err: any) {
+    console.log("err in mid= ", err);
+    return NextResponse.json({
+      message: "Book not available",
+      detail: `${err.message}`,
+    });
   }
-  return new NextResponse(JSON.stringify(result));
 }
 
 export async function DELETE(request: NextRequest, { params }: TParams) {
-  const result = await db.unsafe(
-    `SELECT * FROM orders WHERE id = ${params.orderId};`
-  );
-  // console.log("backend result", result);
-  if (result.length === 0) {
-    return NextResponse.json({ message: "Book not found" });
+  try {
+    const user: TUser = JSON.parse(`${request.headers.get("user")}`);
+
+    const result = await db.unsafe(
+      `DELETE FROM orders WHERE user_id = ${user.userId} and id = ${params.orderId} RETURNING *;`
+    );
+    if (!result.length) {
+      return NextResponse.json({ message: "Order not found" });
+    }
+
+    return NextResponse.json({ message: "Order deleted successfully" });
+  } catch (err: any) {
+    console.log("err in mid= ", err);
+    return NextResponse.json({
+      message: "Unknown Error",
+      detail: `${err.message}`,
+    });
   }
-  return new NextResponse(JSON.stringify(result));
 }
