@@ -1,54 +1,60 @@
+// https://youtu.be/pmAnWOofqJE
 // import { cookies } from "next/headers";
-
 import { jwtVerify } from "jose";
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-// This function can be marked `async` if using `await` inside
 export async function middleware(req: NextRequest) {
   try {
-    let token: string =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlBvc3RtYTdAZXhhbXBsZS5jb20iLCJ1c2VySWQiOjI2fQ.Drx2QB4E3s0jQ4RazVjEVVGYbCbVgxxcobptwTxOhbg";
+    let token: string = "";
+
+    if (req.headers.get("authorization")) {
+      token = `${req.headers.get("authorization")?.replace("Bearer ", "")}`;
+    }
 
     const verified = await jwtVerify(
       token,
       new TextEncoder().encode(process.env.SECRET || "1book_shehzad_secret1")
     );
 
-    if (req.headers.get("authorization")) {
-      token = `${req.headers.get("authorization")?.replace("Bearer ", "")}`;
-    }
-    console.log("url", req.nextUrl.host);
-
-    const response = await fetch(`http://${req.nextUrl.host}/api/middleware`, {
+    // console.log("url SSSS", req.nextUrl.host);
+    const userAuth = await fetch(`http://${req.nextUrl.host}/api/middleware`, {
       method: "POST",
       body: JSON.stringify({
         userId: verified.payload.userId,
         clientEmail: verified.payload.clientEmail,
       }),
     });
-    // let a = response.json();
-    // console.log("🚀 ~ file: middleware.ts:54 ~ middleware ~ response:", a);
+    const userLoggedIn = await userAuth.json();
+    if (!userLoggedIn.verified)
+      return NextResponse.json({ message: "Not Authorized" });
 
-    const loggedIn: Boolean = false;
-    if (req.url.includes("api")) {
-      // if(req.cookies)
-      // {token = req.cookies;}
-      // console.log(
-      //   "🚀 ~ file: middleware.ts:11 ~ middleware ~ cookies:",
-      //   // Boolean(req.cookies)
-      //   req.cookies
-      // );
+    const headers = new Headers(req.headers);
+    headers.set("user", JSON.stringify(verified.payload));
 
-      console.log("this is server api ");
+    return NextResponse.next({
+      request: {
+        headers,
+      },
+    });
 
-      return NextResponse.next();
-    }
+    // if (req.url.includes("api")) {
+    //   // if(req.cookies)
+    //   // {token = req.cookies;}
+    //   // console.log(
+    //   //   "🚀 ~ file: middleware.ts:11 ~ middleware ~ cookies:",
+    //   //   // Boolean(req.cookies)
+    //   //   req.cookies
+    //   // );
+
+    //   console.log("this is server api ");
+
+    //   return NextResponse.next();
+    // }
     // below middleware is for client not for APIs
-    console.log("this is browser");
+    // console.log("this is browser");
 
     // if (req.nextUrl.pathname.startsWith('/login')&&!verifiedToken){return}
-    if (!loggedIn) return NextResponse.redirect(new URL("/login", req.url));
+    // if (!loggedIn) return NextResponse.redirect(new URL("/login", req.url));
   } catch (err) {
     console.log("err in mid= ", err);
     return NextResponse.json({ message: "Unknown error" });

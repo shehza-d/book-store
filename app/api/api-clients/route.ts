@@ -25,7 +25,10 @@ export async function POST(request: NextRequest) {
     );
     const userId = res.map((i) => i.id).shift();
 
-    const token = await new SignJWT({ clientEmail: req.clientEmail, userId })
+    const token = await new SignJWT({
+      clientEmail: req.clientEmail.toLowerCase(),
+      userId,
+    })
       .setProtectedHeader({ alg: "HS256", typ: "JWT" })
       .sign(
         new TextEncoder().encode(process.env.SECRET || "1book_shehzad_secret1")

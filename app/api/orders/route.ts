@@ -1,42 +1,47 @@
 import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 
-export async function GET(request: NextRequest) {
-  // const result = await db.unsafe("SELECT * FROM orders");
-  // return new NextResponse(JSON.stringify(result));
-  return NextResponse.json({ t: "dfdf" });
-}
-
+type TUser = { userId: string; clientEmail: string };
 type TBook = {
   bookId: string;
   customerName: string;
+  quantity?: number;
+  total_price?: number;
 };
 
-export async function POST(request: NextRequest) {
-  console.log(uuidv4());
+export async function GET(request: NextRequest) {
+  const user: TUser = JSON.parse(`${request.headers.get("user")}`);
 
-  return uuidv4();
-  // const req: TBook = await request.json();
-
-  // if (!req.bookId || !req.customerName)
-  //   return NextResponse.json({ message: "Please enter required parameters" });
-
-  // await db.unsafe(
-  //   `INSERT INTO orders (bookId, customerName) VALUES ('${req.bookId}', '${req.customerName}');`
-  // );
-
-  // return NextResponse.json({ message: "Order placed successfully" });
+  const result = await db.unsafe(
+    `SELECT * FROM orders WHERE user_id = ${user.userId}`
+  );
+  if (!result.length) {
+    return NextResponse.json({ message: "Orders not found" });
+  }
+  return new NextResponse(JSON.stringify(result));
 }
 
-// {
-//   "test":"dtekfjfjiofjdf",
-// "type":"something",
-// "available":"fgfgfg"
-// }
+export async function POST(request: NextRequest) {
+  try {
+    const req: TBook = await request.json();
+    const user: TUser = JSON.parse(`${request.headers.get("user")}`);
 
-// export async function PATCH(request: NextRequest) {
-//   const result = await db.unsafe(
-//     "UPDATE books SET type = 'programming' WHERE id = 3;"
-//   );
-// }
+    if (!req.bookId || !req.customerName)
+      return NextResponse.json({ message: "Please enter required parameters" });
+
+    await db.unsafe(
+      `INSERT INTO orders (user_id, book_id, quantity ) VALUES (${
+        user.userId
+      }, ${req.bookId} ,${req.quantity ? req.quantity : 1} );`
+    );
+    // INSERT INTO orders (user_id, book_id, quantity) VALUES (1, 2, 3);
+
+    return NextResponse.json({ message: "Order placed successfully" });
+  } catch (err: any) {
+    console.log("err in mid= ", err);
+    return NextResponse.json({
+      message: "Book not available",
+      detail: `${err.message}`,
+    });
+  }
+}

@@ -18,6 +18,7 @@ async function getData() {
 
 export default async function Page() {
   const data: BooksType[] = await getData();
+  // console.log(data);
 
   return (
     <section>

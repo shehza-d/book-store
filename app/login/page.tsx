@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const baseURL = `https://simple-books-api.glitch.me`;
+// const baseURL = `https://simple-books-api.glitch.me`;
 
 export default function Page() {
   const [userName, setUserName] = useState<String>();
@@ -13,27 +13,28 @@ export default function Page() {
     console.log("name", userName);
     console.log("name", email);
 
-    // const res = await fetch(`${baseURL}/api-clients`, {
-    //   method: "POST",
-    //   credentials: "include",
+    const res = await fetch(`/api/api-clients`, {
+      method: "POST",
+      // credentials: "include",
 
-    //   //   // cache: "force-cache",
-    //   headers: {
-    //     //     // "x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
-    //     //     // "x-rapidapi-key": "your_api_key",
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    //   body: JSON.stringify({
-    //     clientName: "Postman",
-    //     clientEmail: "valentin@example.com",
-    //   }),
-    // });
-    // console.log("res", res);
+      //   // cache: "force-cache",
+      // headers: {
+      //     // "x-rapidapi-host": "carbonfootprint1.p.rapidapi.com",
+      //     // "x-rapidapi-key": "your_api_key",
+      // "Content-type": "application/json; charset=UTF-8",
+      // },
+      body: JSON.stringify({
+        clientName: userName,
+        clientEmail: email,
+      }),
+    });
+    let a = await res.json();
+    console.log("res", a);
 
-    // if (!res.ok) {
-    //   throw new Error(`HTTP error! status: ${res.status}`);
-    // }
-    // return res;
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return res;
   };
 
   return (

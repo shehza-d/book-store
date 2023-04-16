@@ -42,6 +42,12 @@ JOIN books ON orders.id = books.id;
 INSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');
 INSERT INTO orders (bookId, customerName) VALUES ('John Doe', 'john@example.com');
 INSERT INTO orders (book_id, customerName) VALUES (1, 'uzair');
+INSERT INTO users (name, email) VALUES ('John Doe', 'johndoe3@example.com') RETURNING id;
+INSERT INTO orders (user_id, book_id, quantity) VALUES (1, 2, 3);
+
+
+SELECT * FROM users WHERE user_id = 1
+
 
 -- To retrieve data from a table, use the SELECT statement, for example:
 SELECT * FROM users;

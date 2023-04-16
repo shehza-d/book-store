@@ -7,15 +7,15 @@ const baseURL = "https://simple-books-api.glitch.me";
 const key = "1956a5a8b8e0d0c8f0bd7ea4b07a87d299b4cc718e4c67ac212e66e40dfc40fb";
 
 async function getData() {
-  const res = await fetch(`${baseURL}/orders`, {
+  const res = await fetch(`/api/orders`, {
     cache: "no-cache",
     method: "GET",
     // withCredentials: true,
     credentials: "include",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
+    // headers: {
+    //   Authorization: `Bearer ${key}`,
+    //   "Content-Type": "application/json",
+    // },
   }).then((res) => res.json());
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
@@ -29,7 +29,7 @@ async function getData() {
 }
 
 export default async function Page() {
-  // const data: OrderType[] = await getData();
+  const data: OrderType[] = await getData();
 
   return (
     <section>
@@ -37,7 +37,7 @@ export default async function Page() {
 
       {/* <OrderForm /> */}
       <div className="grid gap-10 md:grid-cols-3">
-        {/* {data?.map((item) => {
+        {data?.map((item) => {
           return (
             <div className="card bdr" key={item.id}>
               <h2>Customer Name : {item.customerName}</h2>
@@ -47,7 +47,7 @@ export default async function Page() {
               <p>Order Time: {moment(item.timestamp).fromNow()}</p>
             </div>
           );
-        })} */}
+        })}
       </div>
     </section>
   );
