@@ -1,13 +1,12 @@
+import { db } from "@/db";
 import { NextRequest, NextResponse } from "next/server";
-import postgres from "postgres";
 
 type TParams = {
   params: { orderId: string };
 };
 
 export async function GET(request: NextRequest, { params }: TParams) {
-  const conn = postgres({ ssl: require });
-  const result = await conn.unsafe(
+  const result = await db.unsafe(
     `SELECT * FROM orders WHERE id = ${params.orderId};`
   );
   if (result.length === 0) {
@@ -22,8 +21,7 @@ export async function PATCH(request: NextRequest, { params }: TParams) {
   if (!req.customerName)
     return NextResponse.json({ message: "Please enter required parameters" });
 
-  const conn = postgres({ ssl: require });
-  const result = await conn.unsafe(
+  const result = await db.unsafe(
     `UPDATE orders SET customerName = '${req.customerName}' WHERE id = ${params.orderId};`
   );
 
@@ -34,8 +32,7 @@ export async function PATCH(request: NextRequest, { params }: TParams) {
 }
 
 export async function DELETE(request: NextRequest, { params }: TParams) {
-  const conn = postgres({ ssl: require });
-  const result = await conn.unsafe(
+  const result = await db.unsafe(
     `SELECT * FROM orders WHERE id = ${params.orderId};`
   );
   // console.log("backend result", result);

@@ -19,13 +19,24 @@
 
  CREATE TABLE orders (
       id SERIAL PRIMARY KEY,
-      bookId  NOT NULL,
+      FOREIGN KEY (id) REFERENCES books (id),
       customerName VARCHAR(45) NOT NULL,
+	created_at TIMESTAMP DEFAULT NOW()
    );
+   CREATE TABLE orders (
+  order_id SERIAL PRIMARY KEY,
+  id INTEGER,
+  customerName VARCHAR(255),
+  FOREIGN KEY (id) REFERENCES books (id)
+);
+
+SELECT orders.order_id, orders.id , orders.customerName, books.name FROM orders
+JOIN books ON orders.id = books.id;
+
 -- To insert data into the table, use the INSERT INTO statement, 
 INSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');
 INSERT INTO orders (bookId, customerName) VALUES ('John Doe', 'john@example.com');
-:
+INSERT INTO orders (book_id, customerName) VALUES (1, 'uzair');
 
 -- To retrieve data from a table, use the SELECT statement, for example:
 SELECT * FROM users;

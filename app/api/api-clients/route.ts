@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import postgres from "postgres";
 
 type TBook = {
   clientName: string;
@@ -11,9 +10,7 @@ export async function POST(request: NextRequest) {
   if (!req.clientName || !req.clientEmail)
     return NextResponse.json({ message: "Please enter required parameters" });
 
-  // const conn = postgres({ ssl: require });
-
-  // await conn.unsafe(
+  // await db.unsafe(
   //   `INSERT INTO books (name, type,available) VALUES ('${req.name}', '${
   //     req.type
   //   }',${
