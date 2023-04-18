@@ -15,6 +15,13 @@ module.exports = {
   experimental: {
     appDir: true,
   },
+  env: {
+    SECRET: "1book_shehzad_secret1",
+    PGHOST: "ep-dry-mountain-366119.ap-southeast-1.aws.neon.tech",
+    PGDATABASE: "neondb",
+    PGUSER: "shehza-d",
+    PGPASSWORD: "3xIlhWUwCsZ9",
+  },
 };
 
 // env: {

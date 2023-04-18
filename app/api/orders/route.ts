@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ message: "Order placed successfully" });
   } catch (err: any) {
-    console.log("err in mid= ", err);
+    console.log("err in order= ", err);
     return NextResponse.json({
       message: "Book not available",
       detail: `${err.message}`,

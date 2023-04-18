@@ -39,7 +39,7 @@ export async function PATCH(request: NextRequest, { params }: TParams) {
 
     return NextResponse.json({ message: "Order updated successfully" });
   } catch (err: any) {
-    console.log("err in mid= ", err);
+    console.log("err in order/:id patch= ", err);
     return NextResponse.json({
       message: "Book not available",
       detail: `${err.message}`,
@@ -60,7 +60,7 @@ export async function DELETE(request: NextRequest, { params }: TParams) {
 
     return NextResponse.json({ message: "Order deleted successfully" });
   } catch (err: any) {
-    console.log("err in mid= ", err);
+    console.log("err in order/:id delete= ", err);
     return NextResponse.json({
       message: "Unknown Error",
       detail: `${err.message}`,

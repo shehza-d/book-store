@@ -1,19 +1,29 @@
-export interface BooksType {
+export interface IBooks {
   id: number;
   name: string;
   type: string;
   available: boolean;
+  created_at: string;
 }
 
-export interface BookType {
+export interface IBook {
   id: number;
   name: string;
-  author: string;
   type: string;
-  price: number;
-  "current-stock": number;
+  price?: number;
   available: boolean;
+  created_at: string;
 }
+
+// {
+//   id: number;
+//   name: string;
+//   author: string;
+//   type: string;
+//   price: number;
+//   "current-stock": number;
+//   available: boolean;
+// }
 
 export interface OrderType {
   id: string;

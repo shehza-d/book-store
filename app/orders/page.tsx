@@ -1,17 +1,17 @@
 import { OrderType } from "@/types";
+import { getPath } from "@/utils/getPath";
 import moment from "moment";
 
 // import OrderForm from "@/components/OrderForm";
 
-const baseURL = "https://simple-books-api.glitch.me";
 const key = "1956a5a8b8e0d0c8f0bd7ea4b07a87d299b4cc718e4c67ac212e66e40dfc40fb";
 
 async function getData() {
-  const res = await fetch(`/api/orders`, {
+  const res = await fetch(`${getPath()}/api/orders`, {
     cache: "no-cache",
     method: "GET",
     // withCredentials: true,
-    credentials: "include",
+    credentials: "same-origin",
     // headers: {
     //   Authorization: `Bearer ${key}`,
     //   "Content-Type": "application/json",
@@ -29,7 +29,8 @@ async function getData() {
 }
 
 export default async function Page() {
-  // const data: OrderType[] = await getData();
+  const data: OrderType[] = await getData();
+  console.log("🚀 ~ file: page.tsx:33 ~ Page ~ data:", data);
 
   return (
     <section>

@@ -4,6 +4,7 @@ import { jwtVerify } from "jose";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
+  console.log("middlewareee");
   try {
     let token: string = "";
 
@@ -17,7 +18,7 @@ export async function middleware(req: NextRequest) {
     );
 
     // console.log("url SSSS", req.nextUrl.host);
-    const userAuth = await fetch(`http://${req.nextUrl.host}/api/middleware`, {
+    const userAuth = await fetch(`https://${req.nextUrl.host}/api/middleware`, {
       method: "POST",
       body: JSON.stringify({
         userId: verified.payload.userId,
@@ -61,7 +62,6 @@ export async function middleware(req: NextRequest) {
   }
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/orders/:path*", "/api/orders/:path*"],
+  matcher: ["/api/orders/:path*"],
 };
